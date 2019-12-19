@@ -1,6 +1,17 @@
 import * as React from 'react'
 import { render } from 'react-dom'
-import {useCallback, useMemo, useState} from 'react'
+import {useCallback, useEffect, useMemo, useState} from 'react'
+
+const CounterEffect = () => {
+    const [count, setCount] = useState(0)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCount(count + 1)
+        }, 1000)
+        return () => clearInterval(interval)
+    })
+    return <div>{ count }</div>
+}
 
 const Counter = () => {
     const [count, setCount] = useState(0)
@@ -83,6 +94,7 @@ const App = () => (
         <Counter/>
         <Double/>
         <Wrapper/>
+        <CounterEffect/>
     </div>
 )
 
