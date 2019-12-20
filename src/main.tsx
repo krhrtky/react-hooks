@@ -1,6 +1,32 @@
 import * as React from 'react'
 import { render } from 'react-dom'
-import {useCallback, useEffect, useMemo, useState} from 'react'
+import {useCallback, useEffect, useMemo, useReducer, useRef, useState} from 'react'
+import {initialState, reducer} from './reducer'
+
+const CounterSecond = () => {
+    const [state, dispatch] = useReducer(reducer, initialState)
+    return (
+        <>
+            Count: {state.count}
+            <button onClick={() => dispatch({type: 'increment'})}>+</button>
+            <button onClick={() => dispatch({type:'decrement'})}>-</button>
+        </>
+    )
+}
+
+const Rect = () => {
+    const ref = useRef<null | HTMLDivElement>(null)
+    useEffect(() => {
+        if (ref.current === null) return
+        const size = ref.current.getBoundingClientRect()
+        console.log(size)
+    })
+    return (
+        <div>
+            <div ref={ref} style={{width: 100, height: 100, backgroundColor: '#04fb9f'}}/>
+        </div>
+    )
+}
 
 const CounterEffect = () => {
     const [count, setCount] = useState(0)
@@ -95,6 +121,8 @@ const App = () => (
         <Double/>
         <Wrapper/>
         <CounterEffect/>
+        <Rect/>
+        <CounterSecond/>
     </div>
 )
 
